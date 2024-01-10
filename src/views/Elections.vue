@@ -1,8 +1,7 @@
 <script setup>
 import OffCanvas from '../components/OffCanvas.vue';
 import UserCanvas from '../components/UserCanvas.vue';
-import Editor from '@tinymce/tinymce-vue';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 import { Form } from 'vee-validate'
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -15,11 +14,6 @@ const addBtnisDisabled = ref(false);
 const initialSection = { inputValue: '' };
 const sections = ref([{ inputValue: '' }]);
 
-const clientsO = { name: '', text: '' };
-const clientSections = ref([{ name: '', text: '' }])
-
-const institutions = { name: '', text: '' };
-const institutionsSection = ref([{ name: '', text: '' }])
 
 const photoLink = ref('');
 const widget = window.cloudinary.createUploadWidget(

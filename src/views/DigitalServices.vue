@@ -7,10 +7,8 @@ import axios from 'axios';
 import { Form } from 'vee-validate'
 import Swal from 'sweetalert2';
 import router from "../router/index"
-import { getUserData } from '../helper/auth';
 
 const photoLink = ref('');
-const userData = getUserData();
 const changedIndex = ref(-1);
 
 

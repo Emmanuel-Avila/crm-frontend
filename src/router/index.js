@@ -141,6 +141,14 @@ const router = createRouter({
       }
     },
     {
+      path: '/oficinas',
+      name: 'offices',
+      component: () => import('../views/Offices.vue'),
+      meta: {
+        requiresCRM: true,
+      }
+    },
+    {
       path: '/lista-quejas',
       name: 'complaints',
       component: () => import('../views/ComplaintsTable.vue'),

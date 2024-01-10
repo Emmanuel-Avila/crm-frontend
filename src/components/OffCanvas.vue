@@ -84,6 +84,9 @@ const userData = getUserData();
               <li><router-link :to="{ name: 'elections' }"><i class="material-icons-outlined">arrow_right</i>Editar
                   Elecciones</router-link>
               </li>
+              <li><router-link :to="{ name: 'offices' }"><i class="material-icons-outlined">arrow_right</i>Editar
+                  Oficinas</router-link>
+              </li>
             </ul>
           </li>
         </ul>
