@@ -149,6 +149,14 @@ const router = createRouter({
       }
     },
     {
+      path: '/modal',
+      name: 'modal',
+      component: () => import('../views/Modal.vue'),
+      meta: {
+        requiresCRM: true,
+      }
+    },
+    {
       path: '/lista-quejas',
       name: 'complaints',
       component: () => import('../views/ComplaintsTable.vue'),

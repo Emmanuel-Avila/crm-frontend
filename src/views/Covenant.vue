@@ -33,7 +33,7 @@ const schema = yup.object({
   title: yup.string("Deber ser texto").required("Titulo requerido"),
   image: yup.string("No olvide de subir imagen").required("Imagen requerida"),
   body: yup.string("No olvide el cuerpo").required("Cuerpo del Convenio requerido"),
-  office: yup.string().required("Categoría requerida"),
+  office: yup.string().required("Departamento requerido"),
   terms: yup.string().required("Terminos y Condiciones requerido"),
   location: yup.string().required("Locacion requerido"),
   phone: yup.string().required("Telefono requerido"),

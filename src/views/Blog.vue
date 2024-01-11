@@ -183,10 +183,7 @@ function onSubmit(values, { resetForm }) {
                 </div>
               </div>
             </Form>
-
           </div>
-
-
         </div><!--end row-->
 
       </div>
