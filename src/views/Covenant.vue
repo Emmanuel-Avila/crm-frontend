@@ -11,13 +11,17 @@ import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import UserCanvas from '../components/UserCanvas.vue';
 
+const TINY_API_KEY = import.meta.env.VITE_TINY_CLOUD_KEY;
+const ClOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
 const photoLink = ref('');
 const date = ref(new Date());
 const body = ref('');
 const terms = ref('');
 
 const widget = window.cloudinary.createUploadWidget(
-  { cloud_name: "djtaptkxe", upload_preset: "upload-demo" },
+  { cloud_name: ClOUDINARY_CLOUD_NAME, upload_preset: UPLOAD_PRESET },
   (error, result) => {
     if (!error && result && result.event === 'success') {
       console.log(result.info);
@@ -177,10 +181,9 @@ function onSubmit(values, { resetForm }) {
                     <label for="input40" class="col-sm-3 col-form-label">Cuerpo</label>
                     <div class="col-sm-9">
                       <Field name="body" v-model="body">
-                        <Editor name='body' v-model="body" api-key="2s0b75pvvp0afr2ld1tbfj1ut3rqh6lan59gojth98anpbyk"
-                          :init="{
-                            plugins: 'lists link image table code help wordcount media emoticons'
-                          }"></Editor>
+                        <Editor name='body' v-model="body" :api-key="TINY_API_KEY" :init="{
+                          plugins: 'lists link image table code help wordcount media emoticons'
+                        }"></Editor>
                       </Field>
                       <ErrorMessage class="red" name="body" />
                     </div>
@@ -234,10 +237,9 @@ function onSubmit(values, { resetForm }) {
                     <label for="input40" class="col-sm-3 col-form-label">Terminos y Condiciones</label>
                     <div class="col-sm-9">
                       <Field name="terms" v-model="terms">
-                        <Editor name='terms' v-model="terms" api-key="2s0b75pvvp0afr2ld1tbfj1ut3rqh6lan59gojth98anpbyk"
-                          :init="{
-                            plugins: 'lists link image table code help wordcount media emoticons'
-                          }"></Editor>
+                        <Editor name='terms' v-model="terms" :api-key="TINY_API_KEY" :init="{
+                          plugins: 'lists link image table code help wordcount media emoticons'
+                        }"></Editor>
                       </Field>
                       <ErrorMessage class="red" name="terms" />
                     </div>

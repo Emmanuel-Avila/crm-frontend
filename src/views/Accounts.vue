@@ -9,6 +9,10 @@ import { Form } from 'vee-validate'
 import Swal from 'sweetalert2';
 import router from "../router/index"
 
+const TINY_API_KEY = import.meta.env.VITE_TINY_CLOUD_KEY;
+const ClOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+
 const photoLink = ref('');
 const changedIndex = ref(-1);
 const selectVal = ref("")
@@ -101,7 +105,7 @@ watch(selectVal, (newVal, oldVal) => {
 
 
 const widget = window.cloudinary.createUploadWidget(
-  { cloud_name: "djtaptkxe", upload_preset: "upload-demo" },
+  { cloud_name: ClOUDINARY_CLOUD_NAME, upload_preset: UPLOAD_PRESET },
   (error, result) => {
     if (!error && result && result.event === 'success') {
       console.log(result.info);
@@ -250,10 +254,9 @@ function onSubmit() {
                     <div class="row mb-3">
                       <label for="" class="col-sm-3 col-form-label">Descripcion</label>
                       <div class="col-sm-9">
-                        <Editor name="description" v-model="accountDetails.description"
-                          api-key="2s0b75pvvp0afr2ld1tbfj1ut3rqh6lan59gojth98anpbyk" :init="{
-                            plugins: ' help wordcount emoticons',
-                          }"></Editor>
+                        <Editor name="description" v-model="accountDetails.description" :api-key="TINY_API_KEY" :init="{
+                          plugins: ' help wordcount emoticons',
+                        }"></Editor>
                       </div>
                     </div>
                     <div v-for="(ac, index) in accounts" :key="index">
@@ -328,10 +331,9 @@ function onSubmit() {
                     <div class="row mb-3">
                       <label for="" class="col-sm-3 col-form-label">Descripcion</label>
                       <div class="col-sm-9">
-                        <Editor name="description" v-model="accountDetails.description"
-                          api-key="2s0b75pvvp0afr2ld1tbfj1ut3rqh6lan59gojth98anpbyk" :init="{
-                            plugins: ' help wordcount emoticons',
-                          }"></Editor>
+                        <Editor name="description" v-model="accountDetails.description" :api-key="TINY_API_KEY" :init="{
+                          plugins: ' help wordcount emoticons',
+                        }"></Editor>
                       </div>
                     </div>
                     <div v-for="(service, index) in secondAccounts" :key="index">

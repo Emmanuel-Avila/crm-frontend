@@ -7,11 +7,12 @@ import { Form, Field, ErrorMessage } from 'vee-validate'
 import * as yup from 'yup';
 import Swal from 'sweetalert2';
 import router from "../router/index"
-import { getUserData } from '../helper/auth';
+
+const ClOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
 
 const photoLink = ref('');
 const body = ref('');
-const userData = getUserData();
 const photoLinks = ref([]);
 const changedIndex = ref(-1);
 
@@ -72,7 +73,7 @@ onMounted(async () => {
 
 
 const widget = window.cloudinary.createUploadWidget(
-  { cloud_name: "djtaptkxe", upload_preset: "upload-demo" },
+  { cloud_name: ClOUDINARY_CLOUD_NAME, upload_preset: UPLOAD_PRESET },
   (error, result) => {
     if (!error && result && result.event === 'success') {
       console.log(result.info);

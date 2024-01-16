@@ -8,6 +8,8 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import router from "../router/index"
 
+const TINY_API_KEY = import.meta.env.VITE_TINY_CLOUD_KEY;
+
 const selectVal = ref('');
 const addIndex = ref([]);
 const cancelBtnisDisabled = ref(false);
@@ -248,10 +250,9 @@ function onSubmit() {
                 <div class="row mb-3" v-for="(benefit, index) in benefitSections" :key="index">
                   <label for="input37" class="col-sm-3 col-form-label">Beneficios</label>
                   <div class="col-sm-9">
-                    <Editor name='benefits' v-model="benefit.benefits"
-                      api-key="2s0b75pvvp0afr2ld1tbfj1ut3rqh6lan59gojth98anpbyk" :init="{
-                        plugins: ' help wordcount emoticons', height: 150
-                      }"></Editor>
+                    <Editor name='benefits' v-model="benefit.benefits" :api-key="TINY_API_KEY" :init="{
+                      plugins: ' help wordcount emoticons', height: 150
+                    }"></Editor>
                   </div>
                   <div class="d-md-flex d-grid align-items-center gap-3">
                     <button type="button" class="btn btn-primary px-4" @click.prevent="addBenefits">Añadir</button>
@@ -262,10 +263,9 @@ function onSubmit() {
                 <div class="row mb-3" v-for="(requirement, index) in requirementsSection" :key="index">
                   <label for="input37" class="col-sm-3 col-form-label">Requerimientos</label>
                   <div class="col-sm-9">
-                    <Editor name='requirements' v-model="requirement.text"
-                      api-key="2s0b75pvvp0afr2ld1tbfj1ut3rqh6lan59gojth98anpbyk" :init="{
-                        plugins: 'lists link image table code help wordcount media emoticons', height: 150
-                      }"></Editor>
+                    <Editor name='requirements' v-model="requirement.text" :api-key="TINY_API_KEY" :init="{
+                      plugins: 'lists link image table code help wordcount media emoticons', height: 150
+                    }"></Editor>
                   </div>
                   <div class="d-md-flex d-grid align-items-center gap-3">
                     <button type="button" class="btn btn-primary px-4" @click.prevent="addRequirements">Añadir</button>

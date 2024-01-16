@@ -8,6 +8,8 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import router from "../router/index"
 
+const TINY_API_KEY = import.meta.env.VITE_TINY_CLOUD_KEY;
+
 const addIndex = ref([]);
 const cancelBtnisDisabled = ref(false);
 const addBtnisDisabled = ref(false);
@@ -229,10 +231,9 @@ function onSubmit() {
                   </div>
                   <label for="input37" class="col-sm-3 col-form-label">Texto</label>
                   <div class="col-sm-9">
-                    <Editor name='clients' v-model="client.text"
-                      api-key="2s0b75pvvp0afr2ld1tbfj1ut3rqh6lan59gojth98anpbyk" :init="{
-                        plugins: ' help wordcount emoticons', height: 150
-                      }"></Editor>
+                    <Editor name='clients' v-model="client.text" :api-key="TINY_API_KEY" :init="{
+                      plugins: ' help wordcount emoticons', height: 150
+                    }"></Editor>
                   </div>
                   <div class="d-md-flex d-grid align-items-center gap-3">
                     <button type="button" class="btn btn-primary px-4" @click.prevent="addClient">Añadir</button>
@@ -248,10 +249,9 @@ function onSubmit() {
                   </div>
                   <label for="input37" class="col-sm-3 col-form-label">Texto</label>
                   <div class="col-sm-9">
-                    <Editor name='institutions' v-model="insti.text"
-                      api-key="2s0b75pvvp0afr2ld1tbfj1ut3rqh6lan59gojth98anpbyk" :init="{
-                        plugins: 'lists link image table code help wordcount media emoticons', height: 150
-                      }"></Editor>
+                    <Editor name='institutions' v-model="insti.text" :api-key="TINY_API_KEY" :init="{
+                      plugins: 'lists link image table code help wordcount media emoticons', height: 150
+                    }"></Editor>
                   </div>
                   <div class="d-md-flex d-grid align-items-center gap-3">
                     <button type="button" class="btn btn-primary px-4" @click.prevent="addInstitution">Añadir</button>

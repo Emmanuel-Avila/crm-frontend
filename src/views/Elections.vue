@@ -7,6 +7,9 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import router from "../router/index"
 
+const ClOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
 const addIndex = ref([]);
 const cancelBtnisDisabled = ref(false);
 const addBtnisDisabled = ref(false);
@@ -17,7 +20,7 @@ const sections = ref([{ inputValue: '' }]);
 
 const photoLink = ref('');
 const widget = window.cloudinary.createUploadWidget(
-  { cloud_name: "djtaptkxe", upload_preset: "upload-demo" },
+  { cloud_name: ClOUDINARY_CLOUD_NAME, upload_preset: UPLOAD_PRESET },
   (error, result) => {
     if (!error && result && result.event === 'success') {
       console.log(result.info);

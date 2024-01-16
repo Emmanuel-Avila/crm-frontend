@@ -8,6 +8,10 @@ import { Form } from 'vee-validate'
 import Swal from 'sweetalert2';
 import router from "../router/index"
 
+const TINY_API_KEY = import.meta.env.VITE_TINY_CLOUD_KEY;
+const ClOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
 const photoLink = ref('');
 const changedIndex = ref(-1);
 
@@ -79,7 +83,7 @@ onMounted(async () => {
 
 
 const widget = window.cloudinary.createUploadWidget(
-  { cloud_name: "djtaptkxe", upload_preset: "upload-demo" },
+  { cloud_name: ClOUDINARY_CLOUD_NAME, upload_preset: UPLOAD_PRESET },
   (error, result) => {
     if (!error && result && result.event === 'success') {
       console.log(result.info);
@@ -203,10 +207,9 @@ function onSubmit(values) {
                     <div class="row mb-3">
                       <label for="input40" class="col-sm-3 col-form-label">Texto</label>
                       <div class="col-sm-9">
-                        <Editor name='benefits' v-model="service.text"
-                          api-key="2s0b75pvvp0afr2ld1tbfj1ut3rqh6lan59gojth98anpbyk" :init="{
-                            plugins: ' help wordcount emoticons',
-                          }"></Editor>
+                        <Editor name='benefits' v-model="service.text" :api-key="TINY_API_KEY" :init="{
+                          plugins: ' help wordcount emoticons',
+                        }"></Editor>
                       </div>
                     </div>
                     <div class="row mb-3">
