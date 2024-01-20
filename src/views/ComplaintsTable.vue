@@ -17,6 +17,11 @@ import "@vuepic/vue-datepicker/dist/main.css"
 
 import ExcelJS from "exceljs"
 
+const rehabilitadoraURI = import.meta.env.VITE_REHABILITADORA_URI + "/consulta"
+const consultarItem = (item) => {
+  window.open(rehabilitadoraURI + "/" + item.code)
+}
+
 const complaints = ref([])
 
 const searchText = ref("")
@@ -346,13 +351,11 @@ async function exportToExcel() {
       widht: 20,
       key: "comments",
     },
-
     {
       label: "Nombres de guardianes",
       widht: 40,
       key: "guardian",
     },
-
     {
       label: "Tipo de Producto",
       widht: 20,
@@ -729,7 +732,12 @@ function clearFilter() {
               :search-field="searchField"
               :search-value="searchText"
               :filter-options="filterOptions"
+              @click-row="consultarItem"
             >
+              <template #header-department="header">
+                {{ header.text }} gaaa
+              </template>
+
               <template #item-accion="item">
                 <div>
                   <router-link
