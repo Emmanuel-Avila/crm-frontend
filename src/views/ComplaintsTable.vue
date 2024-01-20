@@ -734,12 +734,8 @@ function clearFilter() {
               :filter-options="filterOptions"
               @click-row="consultarItem"
             >
-              <template #header-department="header">
-                {{ header.text }} gaaa
-              </template>
-
               <template #item-accion="item">
-                <div>
+                <div class="my-2">
                   <router-link
                     class="btn btn-primary"
                     :to="{ name: 'complaint-detail', params: { id: item._id } }"
