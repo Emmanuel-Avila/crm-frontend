@@ -1,50 +1,46 @@
 <script setup>
-import axios from 'axios';
-import { Form, Field, ErrorMessage } from 'vee-validate'
-import * as yup from 'yup';
-import Swal from 'sweetalert2';
+import axios from "axios"
+import { Form, Field, ErrorMessage } from "vee-validate"
+import * as yup from "yup"
+import Swal from "sweetalert2"
 import router from "../router/index"
 
 const schema = yup.object({
-  email: yup.string("Deber ser texto").email("Debe ser un email válido").required("Email requerido"),
-  password: yup.string("Deber ser texto").required("Contraseña requerida")
+  email: yup
+    .string("Deber ser texto")
+    .email("Debe ser un email válido")
+    .required("Email requerido"),
+  password: yup.string("Deber ser texto").required("Contraseña requerida"),
 })
 
-
 function onSubmit(values, { resetForm }) {
-
-  axios.post(`${import.meta.env.VITE_SERVER}/users`, values)
+  axios
+    .post(`${import.meta.env.VITE_SERVER}/users`, values)
     .then(function (response) {
-      const { data } = response;
-      localStorage.setItem("token", data.jwt);
-      localStorage.setItem("user", JSON.stringify(data.fUser));
-      if (data.fUser.type === 'CRM') {
-
-        router.push({ name: "blog" });
+      const { data } = response
+      localStorage.setItem("token", data.jwt)
+      localStorage.setItem("user", JSON.stringify(data.fUser))
+      if (data.fUser.type === "CRM") {
+        router.push({ name: "blog" })
       } else {
         router.push({ name: "complaints" })
       }
       Swal.fire({
-        icon: 'success',
-        text: "Se inicio sesion exitosamente"
+        icon: "success",
+        text: "Se inicio sesion exitosamente",
       })
-      resetForm();
-
+      resetForm()
     })
     .catch(function (error) {
       Swal.fire({
-        icon: 'error',
-        text: "Credenciales Invalidas"
+        icon: "error",
+        text: "Credenciales Invalidas",
       })
-      resetForm();
+      resetForm()
       console.log(error)
     })
-
 }
-
 </script>
-
-
 
 <template>
   <!--authentication-->
@@ -58,24 +54,44 @@ function onSubmit(values, { resetForm }) {
             <p class="mb-0">Ingresa tus credenciales para ingresar</p>
 
             <div class="form-body my-4">
-              <Form @submit='onSubmit' :validation-schema="schema" v-slot="{ values }">
+              <Form
+                @submit="onSubmit"
+                :validation-schema="schema"
+                v-slot="{ values }"
+              >
                 <div class="col-12">
-                  <label for="inputEmailAddress" class="form-label">Email</label>
-                  <Field type="email" class="form-control" id="inputEmailAddress" name="email"
-                    placeholder="jhon@example.com"></Field>
+                  <label for="inputEmailAddress" class="form-label"
+                    >Email</label
+                  >
+                  <Field
+                    type="email"
+                    class="form-control"
+                    id="inputEmailAddress"
+                    name="email"
+                    placeholder="jhon@example.com"
+                  ></Field>
                 </div>
                 <ErrorMessage class="red" name="email" />
                 <div class="col-12">
-                  <label for="inputChoosePassword" class="form-label">Contraseña</label>
+                  <label for="inputChoosePassword" class="form-label"
+                    >Contraseña</label
+                  >
                   <div class="input-group" id="show_hide_password">
-                    <Field type="password" class="form-control border-end-0" id="inputChoosePassword" name="password"
-                      placeholder="Ingresa tu contraseña"></Field>
+                    <Field
+                      type="password"
+                      class="form-control border-end-0"
+                      id="inputChoosePassword"
+                      name="password"
+                      placeholder="Ingresa tu contraseña"
+                    ></Field>
                   </div>
                 </div>
                 <ErrorMessage class="red" name="password" />
                 <div class="col-12 pt-20">
                   <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="submit" class="btn button-primary">
+                      Login
+                    </button>
                   </div>
                 </div>
               </Form>
@@ -83,7 +99,8 @@ function onSubmit(values, { resetForm }) {
           </div>
         </div>
       </div>
-    </div><!--end row-->
+    </div>
+    <!--end row-->
   </div>
 
   <!--authentication-->
@@ -91,19 +108,19 @@ function onSubmit(values, { resetForm }) {
 
 <script>
 $(document).ready(function () {
-  $("#show_hide_password a").on('click', function (event) {
-    event.preventDefault();
-    if ($('#show_hide_password input').attr("type") == "text") {
-      $('#show_hide_password input').attr('type', 'password');
-      $('#show_hide_password i').addClass("bi-eye-slash-fill");
-      $('#show_hide_password i').removeClass("bi-eye-fill");
-    } else if ($('#show_hide_password input').attr("type") == "password") {
-      $('#show_hide_password input').attr('type', 'text');
-      $('#show_hide_password i').removeClass("bi-eye-slash-fill");
-      $('#show_hide_password i').addClass("bi-eye-fill");
+  $("#show_hide_password a").on("click", function (event) {
+    event.preventDefault()
+    if ($("#show_hide_password input").attr("type") == "text") {
+      $("#show_hide_password input").attr("type", "password")
+      $("#show_hide_password i").addClass("bi-eye-slash-fill")
+      $("#show_hide_password i").removeClass("bi-eye-fill")
+    } else if ($("#show_hide_password input").attr("type") == "password") {
+      $("#show_hide_password input").attr("type", "text")
+      $("#show_hide_password i").removeClass("bi-eye-slash-fill")
+      $("#show_hide_password i").addClass("bi-eye-fill")
     }
-  });
-});
+  })
+})
 </script>
 
 <style>

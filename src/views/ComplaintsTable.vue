@@ -95,7 +95,10 @@ const headers = [
   { text: "Accion", value: "accion" },
 ]
 
-const date = ref()
+const dateFilter = ref({
+  since: "",
+  until: "",
+})
 
 onMounted(async () => {
   try {
@@ -182,69 +185,91 @@ function formatState(state) {
   }
 }
 
-watch(date, (newValue, oldValue) => {
-  try {
-    const body = {
-      greater: "",
-      lesser: "",
-    }
-    if (newValue) {
-      body.greater = newValue[0]
-      body.lesser = newValue[1] ? newValue[1] : ""
-    }
-    console.log(body)
-    axios
-      .post(`${import.meta.env.VITE_SERVER}/complaints/filter`, body, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then(function (response) {
-        const { data } = response
-        complaints.value = data
-        if (complaints.value.length > 0) {
-          complaints.value.forEach(
-            (comp) => (comp.sentDate = formatDate(comp.sentDate))
-          )
-          complaints.value.forEach((comp) =>
-            comp.department === " "
-              ? (comp.department = "No especifico")
-              : comp.department
-          )
-          complaints.value.forEach((comp) =>
-            comp.complaintType === "claim"
-              ? (comp.complaintType = "Reclamo")
-              : (comp.complaintType = "Queja")
-          )
-          complaints.value.forEach(
-            (comp) => (comp.state = formatState(comp.state))
-          )
-          complaints.value.forEach((comp) =>
-            comp.office === " " ? (comp.office = "No especifico") : comp.office
-          )
-        }
-      })
-      .catch(function (error) {
-        if (error.response.status === 401 || error.response.status === 403) {
-          Swal.fire({
-            icon: "error",
-            text: "Por favor, inicie sesión",
-          })
-          localStorage.setItem("user", "")
-          localStorage.setItem("token", "")
-          router.push({ name: "login" })
-        } else {
-          Swal.fire({
-            icon: "error",
-            text: "Hubo un error con la petición, por favor intentelo mas tarde",
-          })
-        }
-        console.log(error.response.message)
-      })
-  } catch (error) {
-    console.log(error)
+const minSinceDate = computed(() => {
+  if (dateFilter.value.since && dateFilter.value.since != "") {
+    return new Date(dateFilter.value.since)
+  } else {
+    return null
   }
 })
+
+const maxUntilDate = computed(() => {
+  if (dateFilter.value.until && dateFilter.value.until != "") {
+    return new Date(dateFilter.value.until)
+  } else {
+    return null
+  }
+})
+
+watch(
+  dateFilter,
+  (newValue, oldValue) => {
+    try {
+      const body = {
+        greater: newValue.since ? newValue.since : "",
+        lesser: newValue.until ? newValue.until : "",
+      }
+
+      console.log(body)
+      axios
+        .post(`${import.meta.env.VITE_SERVER}/complaints/filter`, body, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then(function (response) {
+          const { data } = response
+          complaints.value = data
+          if (complaints.value.length > 0) {
+            complaints.value.forEach(
+              (comp) => (comp.sentDate = formatDate(comp.sentDate))
+            )
+            complaints.value.forEach((comp) =>
+              comp.department === " "
+                ? (comp.department = "No especifico")
+                : comp.department
+            )
+            complaints.value.forEach((comp) =>
+              comp.complaintType === "claim"
+                ? (comp.complaintType = "Reclamo")
+                : (comp.complaintType = "Queja")
+            )
+            complaints.value.forEach(
+              (comp) => (comp.state = formatState(comp.state))
+            )
+            complaints.value.forEach((comp) =>
+              comp.office === " "
+                ? (comp.office = "No especifico")
+                : comp.office
+            )
+          }
+        })
+        .catch(function (error) {
+          if (error.response.status === 401 || error.response.status === 403) {
+            Swal.fire({
+              icon: "error",
+              text: "Por favor, inicie sesión",
+            })
+            localStorage.setItem("user", "")
+            localStorage.setItem("token", "")
+            router.push({ name: "login" })
+          } else {
+            Swal.fire({
+              icon: "error",
+              text: "Hubo un error con la petición, por favor intentelo mas tarde",
+            })
+          }
+          console.log(error.response.message)
+        })
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  { deep: true }
+)
+
+// ******************************
+
 async function exportToExcel() {
   // Aquí se simula la información obtenida del backend
   const dataFromBackend = [
@@ -317,7 +342,7 @@ async function exportToExcel() {
       key: "phone",
     },
     {
-      label: "Estado",
+      label: "Estado del Reclamo",
       widht: 20,
       key: "state",
     },
@@ -515,7 +540,8 @@ function clearFilter() {
   officeCriteria.value = "all"
   departmentCriteria.value = "all"
   searchText.value = ""
-  date.value = ""
+  dateFilter.value.since = ""
+  dateFilter.value.until = ""
 }
 </script>
 
@@ -575,9 +601,9 @@ function clearFilter() {
         <div class="card">
           <div class="card-body">
             <div class="row mb-2 mt-2">
-              <div class="col-12 col-md-5 col-lg-4 my-2">
+              <div class="col-12 col-md-5 col-lg-3 my-2">
                 <div class="row mx-0">
-                  <div class="col-sm-3 col-md-4">
+                  <div class="col-sm-3 col-md-4 px-md-0">
                     <label for="typeSelect">Tipo</label>
                   </div>
                   <div class="col-sm-9 col-md-8">
@@ -595,9 +621,9 @@ function clearFilter() {
                 </div>
               </div>
 
-              <div class="col-12 col-md-5 col-lg-4 my-2">
+              <div class="col-12 col-md-5 col-lg-3 my-2">
                 <div class="row mx-0">
-                  <div class="col-sm-3 col-md-4">
+                  <div class="col-sm-3 col-md-4 px-md-0">
                     <label for="sedeSelect">Sede</label>
                   </div>
                   <div class="col-sm-9 col-md-8">
@@ -619,17 +645,32 @@ function clearFilter() {
                 </div>
               </div>
 
-              <div class="col-12 col-md-5 col-lg-4 my-2">
+              <div class="col-12 col-md-5 col-lg-3 my-2">
                 <div class="row mx-0">
-                  <div class="col-sm-3 col-md-4">
-                    <label class="m-auto">Fecha:</label>
+                  <div class="col-sm-3 col-md-4 px-md-0">
+                    <label class="m-auto">F. Registro (desde):</label>
                   </div>
                   <div class="col-sm-9 col-md-8">
                     <VueDatePicker
-                      v-model="date"
+                      v-model="dateFilter.since"
                       locale="es"
                       :enable-time-picker="false"
-                      range
+                      :max-date="maxUntilDate"
+                    ></VueDatePicker>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-5 col-lg-3 my-2">
+                <div class="row mx-0">
+                  <div class="col-sm-3 col-md-4 px-md-0">
+                    <label class="m-auto">F. Registro (hasta):</label>
+                  </div>
+                  <div class="col-sm-9 col-md-8">
+                    <VueDatePicker
+                      v-model="dateFilter.until"
+                      locale="es"
+                      :enable-time-picker="false"
+                      :min-date="minSinceDate"
                     ></VueDatePicker>
                   </div>
                 </div>
@@ -637,9 +678,9 @@ function clearFilter() {
             </div>
 
             <div class="row mb-2">
-              <div class="col-12 col-md-5 col-lg-4 mb-2 mt-md-2">
+              <div class="col-12 col-md-5 col-lg-3 mb-2 mt-md-2">
                 <div class="row mx-0">
-                  <div class="col-sm-3 col-md-4">
+                  <div class="col-sm-3 col-md-4 px-md-0">
                     <label for="statusSelect">Estado</label>
                   </div>
                   <div class="col-sm-9 col-md-8">
@@ -661,9 +702,9 @@ function clearFilter() {
                 </div>
               </div>
 
-              <div class="col-12 col-md-5 col-lg-4 my-2">
+              <div class="col-12 col-md-5 col-lg-3 my-2">
                 <div class="row mx-0">
-                  <div class="col-sm-3 col-md-4">
+                  <div class="col-sm-3 col-md-4 px-md-0">
                     <label for="departmentSelect">Departamento</label>
                   </div>
                   <div class="col-sm-9 col-md-8">
@@ -685,9 +726,9 @@ function clearFilter() {
                   </div>
                 </div>
               </div>
-              <div class="col-12 col-md-5 col-lg-4 my-2">
+              <div class="col-12 col-md-5 col-lg-3 my-2">
                 <div class="row mx-0">
-                  <div class="col-sm-3 col-md-4">
+                  <div class="col-sm-3 col-md-4 px-md-0">
                     <label class="m-auto">Buscar:</label>
                   </div>
                   <div class="col-sm-9 col-md-8">
@@ -701,12 +742,12 @@ function clearFilter() {
               </div>
             </div>
 
-            <div class="row pb-2 mb-3 d-flex justify-content-end">
+            <div class="row pb-2 mb-3 d-flex justify-content-end px-2">
               <div class="col-12 col-md-4 col-lg-3 col-xl-2 mb-2">
                 <button
                   type="button"
                   @click.stop="clearFilter"
-                  class="btn btn-lg btn-primary w-100"
+                  class="btn button-secondary w-100"
                 >
                   Limpiar Filtros
                 </button>
@@ -716,7 +757,7 @@ function clearFilter() {
                 <button
                   type="button"
                   @click.stop="exportToExcel"
-                  class="btn btn-lg btn-success btn-align w-100"
+                  class="btn button-primary btn-align w-100"
                 >
                   <i class="material-icons-outlined">cloud_download</i>
                   Descargar
@@ -737,7 +778,7 @@ function clearFilter() {
               <template #item-accion="item">
                 <div class="my-2">
                   <router-link
-                    class="btn btn-primary"
+                    class="btn button-primary"
                     :to="{ name: 'complaint-detail', params: { id: item._id } }"
                     >Actualizar</router-link
                   >

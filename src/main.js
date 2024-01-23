@@ -1,14 +1,16 @@
-import './assets/main.css'
+import "./assets/main.css"
 
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import Jquery from "./directives/pageJQuery";
-import App from './App.vue'
-import router from './router'
+import { createApp } from "vue"
+import { createPinia } from "pinia"
+import Jquery from "./directives/pageJQuery"
+import App from "./App.vue"
+import router from "./router"
+
+import "./assets/main.css"
 
 const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
 app.directive("jquery", Jquery)
-app.mount('#app')
+app.mount("#app")
