@@ -89,8 +89,8 @@ const headers = [
   { text: "Documento de Identidad", value: "documentValue" },
   { text: "Email", value: "email", sortable: true },
   { text: "Es Menor de Edad", value: "isChild" },
-  { text: "Estado", value: "state" },
-  { text: "Departamento", value: "department" },
+  { text: "Estado", value: "state", sortable: true },
+  { text: "Departamento", value: "department", sortable: true },
   { text: "Fecha de Registro", value: "sentDate" },
   { text: "Accion", value: "accion" },
 ]
@@ -155,9 +155,8 @@ onMounted(async () => {
 
 function formatDate(date) {
   const recDate = new Date(date)
-  return ` ${recDate.getDate()}/${
-    recDate.getMonth() + 1
-  }/${recDate.getFullYear()}`
+  return ` ${recDate.getDate()}/${recDate.getMonth() + 1
+    }/${recDate.getFullYear()}`
 }
 
 function formatState(state) {
@@ -549,28 +548,18 @@ function clearFilter() {
   <body v-jquery>
     <!--start header-->
     <header class="top-header">
-      <nav
-        class="navbar navbar-expand align-items-center justify-content-between gap-3"
-      >
+      <nav class="navbar navbar-expand align-items-center justify-content-between gap-3">
         <div class="btn-toggle">
-          <a href="#offcanvasPrimaryMenu" data-bs-toggle="offcanvas"
-            ><i class="material-icons-outlined">menu</i></a
-          >
+          <a href="#offcanvasPrimaryMenu" data-bs-toggle="offcanvas"><i class="material-icons-outlined">menu</i></a>
         </div>
       </nav>
     </header>
     <!--end top header-->
 
     <!--start mini sidebar-->
-    <aside
-      class="mini-sidebar d-flex align-items-center flex-column justify-content-between"
-    >
+    <aside class="mini-sidebar d-flex align-items-center flex-column justify-content-between">
       <div class="user">
-        <a
-          href="#offcanvasUserDetails"
-          data-bs-toggle="offcanvas"
-          class="user-icon"
-        >
+        <a href="#offcanvasUserDetails" data-bs-toggle="offcanvas" class="user-icon">
           <i class="material-icons-outlined">account_circle</i>
         </a>
       </div>
@@ -607,12 +596,7 @@ function clearFilter() {
                     <label for="typeSelect">Tipo</label>
                   </div>
                   <div class="col-sm-9 col-md-8">
-                    <select
-                      name="type"
-                      id="typeSelect"
-                      class="form-select"
-                      v-model="typeCriteria"
-                    >
+                    <select name="type" id="typeSelect" class="form-select" v-model="typeCriteria">
                       <option value="all">Todos</option>
                       <option value="Reclamo">Reclamo</option>
                       <option value="Queja">Queja</option>
@@ -627,12 +611,7 @@ function clearFilter() {
                     <label for="sedeSelect">Sede</label>
                   </div>
                   <div class="col-sm-9 col-md-8">
-                    <select
-                      name="type"
-                      id="sedeSelect"
-                      class="form-select"
-                      v-model="officeCriteria"
-                    >
+                    <select name="type" id="sedeSelect" class="form-select" v-model="officeCriteria">
                       <option value="all">Todos</option>
                       <option value="Lima">Lima</option>
                       <option value="Ica">Ica</option>
@@ -651,12 +630,8 @@ function clearFilter() {
                     <label class="m-auto">F. Registro (desde):</label>
                   </div>
                   <div class="col-sm-9 col-md-8">
-                    <VueDatePicker
-                      v-model="dateFilter.since"
-                      locale="es"
-                      :enable-time-picker="false"
-                      :max-date="maxUntilDate"
-                    ></VueDatePicker>
+                    <VueDatePicker v-model="dateFilter.since" locale="es" :enable-time-picker="false"
+                      :max-date="maxUntilDate"></VueDatePicker>
                   </div>
                 </div>
               </div>
@@ -666,12 +641,8 @@ function clearFilter() {
                     <label class="m-auto">F. Registro (hasta):</label>
                   </div>
                   <div class="col-sm-9 col-md-8">
-                    <VueDatePicker
-                      v-model="dateFilter.until"
-                      locale="es"
-                      :enable-time-picker="false"
-                      :min-date="minSinceDate"
-                    ></VueDatePicker>
+                    <VueDatePicker v-model="dateFilter.until" locale="es" :enable-time-picker="false"
+                      :min-date="minSinceDate"></VueDatePicker>
                   </div>
                 </div>
               </div>
@@ -684,12 +655,7 @@ function clearFilter() {
                     <label for="statusSelect">Estado</label>
                   </div>
                   <div class="col-sm-9 col-md-8">
-                    <select
-                      name="state"
-                      id="statusSelect"
-                      class="form-select"
-                      v-model="stateCriteria"
-                    >
+                    <select name="state" id="statusSelect" class="form-select" v-model="stateCriteria">
                       <option value="all">Todos</option>
                       <option value="Pendiente">Pendiente</option>
                       <option value="En revision">En revision</option>
@@ -708,18 +674,9 @@ function clearFilter() {
                     <label for="departmentSelect">Departamento</label>
                   </div>
                   <div class="col-sm-9 col-md-8">
-                    <select
-                      name="type"
-                      id="departmentSelect"
-                      class="form-select"
-                      v-model="departmentCriteria"
-                    >
+                    <select name="type" id="departmentSelect" class="form-select" v-model="departmentCriteria">
                       <option value="all">Todos</option>
-                      <option
-                        :value="depar.name"
-                        v-for="(depar, index) in departaments"
-                        :key="depar.id"
-                      >
+                      <option :value="depar.name" v-for="(depar, index) in departaments" :key="depar.id">
                         {{ depar.name }}
                       </option>
                     </select>
@@ -732,11 +689,7 @@ function clearFilter() {
                     <label class="m-auto">Buscar:</label>
                   </div>
                   <div class="col-sm-9 col-md-8">
-                    <input
-                      type="search"
-                      v-model="searchText"
-                      class="form-control form-control-sm"
-                    />
+                    <input type="search" v-model="searchText" class="form-control form-control-sm" />
                   </div>
                 </div>
               </div>
@@ -744,44 +697,26 @@ function clearFilter() {
 
             <div class="row pb-2 mb-3 d-flex justify-content-end px-2">
               <div class="col-12 col-md-4 col-lg-3 col-xl-2 mb-2">
-                <button
-                  type="button"
-                  @click.stop="clearFilter"
-                  class="btn button-secondary w-100"
-                >
+                <button type="button" @click.stop="clearFilter" class="btn button-secondary w-100">
                   Limpiar Filtros
                 </button>
               </div>
 
               <div class="col-12 col-md-4 col-lg-3 col-xl-2">
-                <button
-                  type="button"
-                  @click.stop="exportToExcel"
-                  class="btn button-primary btn-align w-100"
-                >
+                <button type="button" @click.stop="exportToExcel" class="btn button-primary btn-align w-100">
                   <i class="material-icons-outlined">cloud_download</i>
                   Descargar
                 </button>
               </div>
             </div>
 
-            <Vue3EasyDataTable
-              buttons-pagination
-              :headers="headers"
-              :items="complaints"
-              theme-color="#0d6efd"
-              :search-field="searchField"
-              :search-value="searchText"
-              :filter-options="filterOptions"
-              @click-row="consultarItem"
-            >
+            <Vue3EasyDataTable buttons-pagination :headers="headers" :items="complaints" theme-color="#0d6efd"
+              :search-field="searchField" :search-value="searchText" :filter-options="filterOptions"
+              @click-row="consultarItem" alternating bordercell>
               <template #item-accion="item">
                 <div class="my-2">
-                  <router-link
-                    class="btn button-primary"
-                    :to="{ name: 'complaint-detail', params: { id: item._id } }"
-                    >Actualizar</router-link
-                  >
+                  <router-link class="btn button-primary"
+                    :to="{ name: 'complaint-detail', params: { id: item._id } }">Actualizar</router-link>
                 </div>
               </template>
               <template #empty-message>
@@ -802,224 +737,128 @@ function clearFilter() {
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCart">
       <div class="offcanvas-header border-bottom h-70">
         <h5 class="mb-0" id="offcanvasRightLabel">8 New Orders</h5>
-        <a
-          href="javascript:;"
-          class="primaery-menu-close"
-          data-bs-dismiss="offcanvas"
-        >
+        <a href="javascript:;" class="primaery-menu-close" data-bs-dismiss="offcanvas">
           <i class="material-icons-outlined">close</i>
         </a>
       </div>
       <div class="offcanvas-body p-0">
         <div class="order-list">
-          <div
-            class="order-item d-flex align-items-center gap-3 p-3 border-bottom"
-          >
+          <div class="order-item d-flex align-items-center gap-3 p-3 border-bottom">
             <div class="order-img">
-              <img
-                src="https://placehold.co/75x50"
-                class="img-fluid rounded-3"
-                width="75"
-                alt=""
-              />
+              <img src="https://placehold.co/75x50" class="img-fluid rounded-3" width="75" alt="" />
             </div>
             <div class="order-info flex-grow-1">
               <h5 class="mb-1 order-title">White Men Shoes</h5>
               <p class="mb-0 order-price">$289</p>
             </div>
             <div class="d-flex">
-              <a class="order-delete"
-                ><span class="material-icons-outlined">delete</span></a
-              >
-              <a class="order-delete"
-                ><span class="material-icons-outlined">visibility</span></a
-              >
+              <a class="order-delete"><span class="material-icons-outlined">delete</span></a>
+              <a class="order-delete"><span class="material-icons-outlined">visibility</span></a>
             </div>
           </div>
 
-          <div
-            class="order-item d-flex align-items-center gap-3 p-3 border-bottom"
-          >
+          <div class="order-item d-flex align-items-center gap-3 p-3 border-bottom">
             <div class="order-img">
-              <img
-                src="https://placehold.co/75x50"
-                class="img-fluid rounded-3"
-                width="75"
-                alt=""
-              />
+              <img src="https://placehold.co/75x50" class="img-fluid rounded-3" width="75" alt="" />
             </div>
             <div class="order-info flex-grow-1">
               <h5 class="mb-1 order-title">Red Airpods</h5>
               <p class="mb-0 order-price">$149</p>
             </div>
             <div class="d-flex">
-              <a class="order-delete"
-                ><span class="material-icons-outlined">delete</span></a
-              >
-              <a class="order-delete"
-                ><span class="material-icons-outlined">visibility</span></a
-              >
+              <a class="order-delete"><span class="material-icons-outlined">delete</span></a>
+              <a class="order-delete"><span class="material-icons-outlined">visibility</span></a>
             </div>
           </div>
 
-          <div
-            class="order-item d-flex align-items-center gap-3 p-3 border-bottom"
-          >
+          <div class="order-item d-flex align-items-center gap-3 p-3 border-bottom">
             <div class="order-img">
-              <img
-                src="https://placehold.co/75x50"
-                class="img-fluid rounded-3"
-                width="75"
-                alt=""
-              />
+              <img src="https://placehold.co/75x50" class="img-fluid rounded-3" width="75" alt="" />
             </div>
             <div class="order-info flex-grow-1">
               <h5 class="mb-1 order-title">Men Polo Tshirt</h5>
               <p class="mb-0 order-price">$139</p>
             </div>
             <div class="d-flex">
-              <a class="order-delete"
-                ><span class="material-icons-outlined">delete</span></a
-              >
-              <a class="order-delete"
-                ><span class="material-icons-outlined">visibility</span></a
-              >
+              <a class="order-delete"><span class="material-icons-outlined">delete</span></a>
+              <a class="order-delete"><span class="material-icons-outlined">visibility</span></a>
             </div>
           </div>
 
-          <div
-            class="order-item d-flex align-items-center gap-3 p-3 border-bottom"
-          >
+          <div class="order-item d-flex align-items-center gap-3 p-3 border-bottom">
             <div class="order-img">
-              <img
-                src="https://placehold.co/75x50"
-                class="img-fluid rounded-3"
-                width="75"
-                alt=""
-              />
+              <img src="https://placehold.co/75x50" class="img-fluid rounded-3" width="75" alt="" />
             </div>
             <div class="order-info flex-grow-1">
               <h5 class="mb-1 order-title">Blue Jeans Casual</h5>
               <p class="mb-0 order-price">$485</p>
             </div>
             <div class="d-flex">
-              <a class="order-delete"
-                ><span class="material-icons-outlined">delete</span></a
-              >
-              <a class="order-delete"
-                ><span class="material-icons-outlined">visibility</span></a
-              >
+              <a class="order-delete"><span class="material-icons-outlined">delete</span></a>
+              <a class="order-delete"><span class="material-icons-outlined">visibility</span></a>
             </div>
           </div>
 
-          <div
-            class="order-item d-flex align-items-center gap-3 p-3 border-bottom"
-          >
+          <div class="order-item d-flex align-items-center gap-3 p-3 border-bottom">
             <div class="order-img">
-              <img
-                src="https://placehold.co/75x50"
-                class="img-fluid rounded-3"
-                width="75"
-                alt=""
-              />
+              <img src="https://placehold.co/75x50" class="img-fluid rounded-3" width="75" alt="" />
             </div>
             <div class="order-info flex-grow-1">
               <h5 class="mb-1 order-title">Fancy Shirts</h5>
               <p class="mb-0 order-price">$758</p>
             </div>
             <div class="d-flex">
-              <a class="order-delete"
-                ><span class="material-icons-outlined">delete</span></a
-              >
-              <a class="order-delete"
-                ><span class="material-icons-outlined">visibility</span></a
-              >
+              <a class="order-delete"><span class="material-icons-outlined">delete</span></a>
+              <a class="order-delete"><span class="material-icons-outlined">visibility</span></a>
             </div>
           </div>
 
-          <div
-            class="order-item d-flex align-items-center gap-3 p-3 border-bottom"
-          >
+          <div class="order-item d-flex align-items-center gap-3 p-3 border-bottom">
             <div class="order-img">
-              <img
-                src="https://placehold.co/75x50"
-                class="img-fluid rounded-3"
-                width="75"
-                alt=""
-              />
+              <img src="https://placehold.co/75x50" class="img-fluid rounded-3" width="75" alt="" />
             </div>
             <div class="order-info flex-grow-1">
               <h5 class="mb-1 order-title">Home Sofa Set</h5>
               <p class="mb-0 order-price">$546</p>
             </div>
             <div class="d-flex">
-              <a class="order-delete"
-                ><span class="material-icons-outlined">delete</span></a
-              >
-              <a class="order-delete"
-                ><span class="material-icons-outlined">visibility</span></a
-              >
+              <a class="order-delete"><span class="material-icons-outlined">delete</span></a>
+              <a class="order-delete"><span class="material-icons-outlined">visibility</span></a>
             </div>
           </div>
 
-          <div
-            class="order-item d-flex align-items-center gap-3 p-3 border-bottom"
-          >
+          <div class="order-item d-flex align-items-center gap-3 p-3 border-bottom">
             <div class="order-img">
-              <img
-                src="https://placehold.co/75x50"
-                class="img-fluid rounded-3"
-                width="75"
-                alt=""
-              />
+              <img src="https://placehold.co/75x50" class="img-fluid rounded-3" width="75" alt="" />
             </div>
             <div class="order-info flex-grow-1">
               <h5 class="mb-1 order-title">Black iPhone</h5>
               <p class="mb-0 order-price">$1049</p>
             </div>
             <div class="d-flex">
-              <a class="order-delete"
-                ><span class="material-icons-outlined">delete</span></a
-              >
-              <a class="order-delete"
-                ><span class="material-icons-outlined">visibility</span></a
-              >
+              <a class="order-delete"><span class="material-icons-outlined">delete</span></a>
+              <a class="order-delete"><span class="material-icons-outlined">visibility</span></a>
             </div>
           </div>
 
-          <div
-            class="order-item d-flex align-items-center gap-3 p-3 border-bottom"
-          >
+          <div class="order-item d-flex align-items-center gap-3 p-3 border-bottom">
             <div class="order-img">
-              <img
-                src="https://placehold.co/75x50"
-                class="img-fluid rounded-3"
-                width="75"
-                alt=""
-              />
+              <img src="https://placehold.co/75x50" class="img-fluid rounded-3" width="75" alt="" />
             </div>
             <div class="order-info flex-grow-1">
               <h5 class="mb-1 order-title">Goldan Watch</h5>
               <p class="mb-0 order-price">$689</p>
             </div>
             <div class="d-flex">
-              <a class="order-delete"
-                ><span class="material-icons-outlined">delete</span></a
-              >
-              <a class="order-delete"
-                ><span class="material-icons-outlined">visibility</span></a
-              >
+              <a class="order-delete"><span class="material-icons-outlined">delete</span></a>
+              <a class="order-delete"><span class="material-icons-outlined">visibility</span></a>
             </div>
           </div>
         </div>
       </div>
       <div class="offcanvas-footer h-70 p-3 border-top">
         <div class="d-grid">
-          <button
-            type="button"
-            class="btn btn-dark"
-            data-bs-dismiss="offcanvas"
-          >
+          <button type="button" class="btn btn-dark" data-bs-dismiss="offcanvas">
             View Products
           </button>
         </div>

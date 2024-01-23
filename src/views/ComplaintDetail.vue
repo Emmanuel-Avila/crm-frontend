@@ -136,8 +136,18 @@ function updateState() {
       const { data } = response
       Swal.fire({
         icon: "success",
-        text: "Se editó la queja correctamente",
+        text: "Se envió la respuesta correctamente",
+        backdrop: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showCancelButton: false,
+        confirmButtonText: "Ok",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload()
+        }
       })
+      
       console.log(data)
     })
     .catch(function (error) {

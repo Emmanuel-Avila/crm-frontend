@@ -23,7 +23,7 @@ const userData = getUserData();
             </a>
             <ul>
               <li><router-link :to="{ name: 'complaints' }"><i class="material-icons-outlined">arrow_right</i>Lista de
-                  Queja</router-link>
+                  Reclamos y Quejas</router-link>
               </li>
               <li><router-link :to="{ name: 'edit-responses' }"><i class="material-icons-outlined">arrow_right</i>Editar
                   Respuestas</router-link>
