@@ -109,6 +109,17 @@ function formatState(state) {
 }
 
 function updateState() {
+  Swal.fire({
+    title: "Procesando..",
+    backdrop: true,
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    showConfirmButton: false,
+    willOpen: () => {
+      Swal.showLoading()
+    },
+  })
+
   const data = {
     id: complaint.value._id,
     action: complaint.value.action,
@@ -567,7 +578,7 @@ function sendResponse() {
                     <div class="d-md-flex d-grid align-items-center gap-3">
                       <button
                         type="button"
-                        class="btn btn-primary px-4"
+                        class="btn button-primary px-4"
                         @click="updateState"
                       >
                         Guardar
@@ -630,7 +641,7 @@ function sendResponse() {
                     <div class="d-md-flex d-grid align-items-center gap-3">
                       <button
                         type="button"
-                        class="btn btn-primary px-4"
+                        class="btn button-primary px-4"
                         @click="sendResponse"
                       >
                         Enviar
