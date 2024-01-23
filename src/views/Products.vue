@@ -246,6 +246,8 @@ function onSubmit() {
                         <option value="mypeVehicle">Vehicular Mype</option>
                         <option value="fixedTerm">Plazo Fijo</option>
                         <option value="fixedTermSenior">Plazo Fijo Senior</option>
+                        <option value="CTS">CTS</option>
+                        <option value="liquidMype">Garantia Liquida Pyme</option>
                       </select>
                     </div>
                   </div>
