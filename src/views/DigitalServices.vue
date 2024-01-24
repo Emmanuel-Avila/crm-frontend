@@ -48,7 +48,6 @@ onMounted(async () => {
     })
       .then(function (response) {
         const { data } = response;
-        console.log(data[0].services)
         if (data.length > 0 && data[0].services) {
           services.value = data[0].services.map(service => ({
             button1: service.button1,

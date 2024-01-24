@@ -13,11 +13,11 @@ const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
 
 const photoLink = ref('');
 const body = ref('');
-const photoLinks = ref([]);
+const photoLinks = ref([{ links: '', redirections: '' }]);
 const changedIndex = ref(-1);
 
 const addPhotoLink = () => {
-  photoLinks.value.push('');
+  photoLinks.value.push({ links: '', redirections: '' });
   console.log("agregaste un nuevo elemento", photoLinks.value)
 }
 
@@ -29,8 +29,8 @@ const onPhotoLinkChange = (newLink, oldLink) => {
 
   const index = changedIndex.value;
   if (index !== -1) {
-    photoLinks.value[index] = newLink; // Asignar el nuevo valor en 'photoLinks'
-    console.log(photoLinks.value[index]);
+    photoLinks.value[index].links = newLink; // Asignar el nuevo valor en 'photoLinks'
+    console.log(photoLinks.value[index].links);
   }
 };
 
@@ -46,7 +46,14 @@ onMounted(async () => {
     })
       .then(function (response) {
         const { data } = response;
-        data.links.forEach(link => { photoLinks.value.push(link) })
+
+        if (data && data.links) {
+          photoLinks.value = data.links.map((link, index) => ({
+            links: link,
+            redirections: data.redirections[index] || '', // Si no hay valor en 'redirections', asignar cadena vacía
+          }));
+        }
+
         console.log("trayendo la informacion del back", photoLinks.value)
       })
       .catch(function (error) {
@@ -91,8 +98,11 @@ function openUploadWidget(index) {
 function onSubmit() {
 
   const postData = {
-    links: photoLinks.value
-  }
+    links: photoLinks.value.map(item => item.links),
+    redirections: photoLinks.value.map(item => item.redirections)
+  };
+
+
   axios.post(`${import.meta.env.VITE_SERVER}/images`, postData, {
     headers: {
       "Content-Type": "application/json",
@@ -177,12 +187,16 @@ function onSubmit() {
             <Form @submit='onSubmit'>
               <div class="card">
                 <div class="card-body p-4">
-                  <div v-for="(link, index) in photoLinks" :key="index">
+                  <div v-for="(obj, index) in photoLinks" :key="index">
                     <h5 class="mb-4">Imagenes para la landing</h5>
                     <div class="row mb-3">
                       <label for="input35" class="col-sm-3 col-form-label">Imágenes</label>
                       <div class="col-sm-9">
-                        <img :src="link" alt="" style="width: inherit;">
+                        <img :src="obj.links" alt="" style="width: inherit;">
+                      </div>
+                      <label for="input36" class="col-sm-3 col-form-label">Link</label>
+                      <div class="col-sm-9">
+                        <input type="text" class='form-control' v-model='obj.redirections'>
                       </div>
                     </div>
                     <div class="row mb-3">
