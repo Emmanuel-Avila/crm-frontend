@@ -120,6 +120,16 @@ onMounted(async () => {
             : comp.department
         )
         complaints.value.forEach((comp) =>
+          comp.province === " "
+            ? (comp.province = "No especifico")
+            : comp.province
+        )
+        complaints.value.forEach((comp) =>
+          comp.district === " "
+            ? (comp.district = "No especifico")
+            : comp.district
+        )
+        complaints.value.forEach((comp) =>
           comp.complaintType === "claim"
             ? (comp.complaintType = "Reclamo")
             : (comp.complaintType = "Queja")
@@ -129,6 +139,12 @@ onMounted(async () => {
         )
         complaints.value.forEach((comp) =>
           comp.office === " " ? (comp.office = "No especifico") : comp.office
+        )
+        complaints.value.forEach(
+          (comp) => comp.incidentDate ? (comp.incidentDate = formatDate(comp.incidentDate)) : comp.incidentDate = "-"
+        )
+        complaints.value.forEach(
+          (comp) => comp.responseDate !== null ? (comp.responseDate = formatDate(comp.responseDate)) : comp.responseDate = "-"
         )
       })
       .catch(function (error) {
@@ -229,6 +245,16 @@ watch(
                 : comp.department
             )
             complaints.value.forEach((comp) =>
+              comp.district === " "
+                ? (comp.district = "No especifico")
+                : comp.district
+            )
+            complaints.value.forEach((comp) =>
+              comp.province === " "
+                ? (comp.province = "No especifico")
+                : comp.province
+            )
+            complaints.value.forEach((comp) =>
               comp.complaintType === "claim"
                 ? (comp.complaintType = "Reclamo")
                 : (comp.complaintType = "Queja")
@@ -240,6 +266,12 @@ watch(
               comp.office === " "
                 ? (comp.office = "No especifico")
                 : comp.office
+            )
+            complaints.value.forEach(
+              (comp) => comp.incidentDate ? (comp.incidentDate = formatDate(comp.incidentDate)) : comp.incidentDate = "-"
+            )
+            complaints.value.forEach(
+              (comp) => comp.responseDate !== null ? (comp.responseDate = formatDate(comp.responseDate)) : comp.responseDate = "-"
             )
           }
         })
@@ -327,7 +359,7 @@ async function exportToExcel() {
     },
     {
       label: "Email",
-      widht: 20,
+      widht: 30,
       key: "email",
     },
     {
@@ -371,11 +403,6 @@ async function exportToExcel() {
       key: "department",
     },
     {
-      label: "Comentarios",
-      widht: 20,
-      key: "comments",
-    },
-    {
       label: "Nombres de guardianes",
       widht: 40,
       key: "guardian",
@@ -416,7 +443,7 @@ async function exportToExcel() {
       key: "responseDate",
     },
     {
-      label: "Requerimiento",
+      label: "Pedido",
       widht: 20,
       key: "request",
     },
@@ -427,7 +454,7 @@ async function exportToExcel() {
     },
     {
       label: "Acción",
-      widht: 20,
+      widht: 50,
       key: "action",
     },
   ]
