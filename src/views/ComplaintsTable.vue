@@ -711,12 +711,17 @@ function clearFilter() {
             </div>
 
             <Vue3EasyDataTable buttons-pagination :headers="headers" :items="complaints" theme-color="#0d6efd"
-              :search-field="searchField" :search-value="searchText" :filter-options="filterOptions"
-              @click-row="consultarItem" alternating bordercell>
+              :search-field="searchField" :search-value="searchText" :filter-options="filterOptions" alternating
+              bordercell>
               <template #item-accion="item">
                 <div class="my-2">
                   <router-link class="btn button-primary"
                     :to="{ name: 'complaint-detail', params: { id: item._id } }">Actualizar</router-link>
+                </div>
+              </template>
+              <template #item-code="item">
+                <div>
+                  <a :href="rehabilitadoraURI + '/' + item.code" target='_blank'> {{ item.code }}</a>
                 </div>
               </template>
               <template #empty-message>
