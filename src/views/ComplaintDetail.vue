@@ -56,7 +56,10 @@ onMounted(async () => {
           complaint.value.incidentDate !== null
             ? formatDate(complaint.value.incidentDate)
             : ""
-
+        complaint.value.address =
+          complaint.value.address === " "
+            ? (complaint.value.address = "No especifico")
+            : complaint.value.address
       })
       .catch(function (error) {
         console.log(error)
@@ -334,7 +337,6 @@ function sendResponse() {
                   </div>
                   <div class="col-md-12">
                     <label for="document" class="form-label">Dirección</label>
-                    {{ complaint.address }}
                     <input type="text" class="form-control" id="document" :value="complaint.address" disabled />
                   </div>
                   <div class="col-md-12">
