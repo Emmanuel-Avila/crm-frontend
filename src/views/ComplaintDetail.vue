@@ -16,6 +16,10 @@ const responses = ref([])
 
 const response = ref("")
 
+import { getCurrentInstance } from 'vue';
+const instance = getCurrentInstance();
+const { $router } = instance.proxy;
+
 onMounted(async () => {
   try {
     axios
@@ -52,7 +56,7 @@ onMounted(async () => {
           complaint.value.incidentDate !== null
             ? formatDate(complaint.value.incidentDate)
             : ""
-        complaint.value.address = data.address
+
       })
       .catch(function (error) {
         console.log(error)
@@ -144,7 +148,7 @@ function updateState() {
         confirmButtonText: "Ok",
       }).then((result) => {
         if (result.isConfirmed) {
-          window.location.reload()
+          $router.push({ name: 'complaints' })
         }
       })
 
@@ -218,7 +222,7 @@ function sendResponse() {
         confirmButtonText: "Ok",
       }).then((result) => {
         if (result.isConfirmed) {
-          window.location.reload()
+          $router.push({ name: 'complaints' })
         }
       })
     })
@@ -330,6 +334,7 @@ function sendResponse() {
                   </div>
                   <div class="col-md-12">
                     <label for="document" class="form-label">Dirección</label>
+                    {{ complaint.address }}
                     <input type="text" class="form-control" id="document" :value="complaint.address" disabled />
                   </div>
                   <div class="col-md-12">
@@ -344,15 +349,15 @@ function sendResponse() {
                   <div class="col-md-4">
                     <label for="input9" class="form-label">Provincia</label>
                     <input type="text" class="form-control" id="input9" :value="complaint.province === ''
-                        ? complaint.province
-                        : 'No Especifico'
+                      ? complaint.province
+                      : 'No Especifico'
                       " disabled />
                   </div>
                   <div class="col-md-4">
                     <label for="input10" class="form-label">Distrito</label>
                     <input type="text" class="form-control" id="input10" :value="complaint.district === ''
-                        ? complaint.district
-                        : 'No Especifico'
+                      ? complaint.district
+                      : 'No Especifico'
                       " disabled />
                   </div>
                   <div class="col-md-6">
