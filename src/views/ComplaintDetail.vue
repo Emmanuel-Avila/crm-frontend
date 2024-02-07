@@ -350,14 +350,14 @@ function sendResponse() {
                   </div>
                   <div class="col-md-4">
                     <label for="input9" class="form-label">Provincia</label>
-                    <input type="text" class="form-control" id="input9" :value="complaint.province === ''
+                    <input type="text" class="form-control" id="input9" :value="complaint.province !== ''
                       ? complaint.province
                       : 'No Especifico'
                       " disabled />
                   </div>
                   <div class="col-md-4">
                     <label for="input10" class="form-label">Distrito</label>
-                    <input type="text" class="form-control" id="input10" :value="complaint.district === ''
+                    <input type="text" class="form-control" id="input10" :value="complaint.district !== ''
                       ? complaint.district
                       : 'No Especifico'
                       " disabled />
